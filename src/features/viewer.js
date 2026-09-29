@@ -1,7 +1,7 @@
 // Drag-to-spin viewer. Reuses the Spin chapter's frames: the film is one
 // seamless 360° turn, so frame index maps straight to an angle.
 
-import { drawFrame } from '../lib/frames.js';
+import { drawFrame, frameKey } from '../lib/frames.js';
 import { prefersReducedMotion, setText, setStyle } from '../lib/util.js';
 
 const PX_PER_TURN = 1400; // drag distance for one full rotation at 1x
@@ -44,7 +44,7 @@ export function initViewer(root, seq) {
     const n = seq.count;
     const idx = ((Math.round(angle * n) % n) + n) % n;
     const img = seq.frameLoop(idx);
-    const k = `${img?.src}|${W}x${H}`;
+    const k = `${frameKey(img)}|${W}x${H}`;
     const d = ((idx / n) * 360) | 0;
     setText(deg, `${String(d).padStart(3, '0')}°`);
     setStyle(dial, '--a', `${d}deg`);

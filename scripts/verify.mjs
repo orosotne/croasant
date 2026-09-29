@@ -3,6 +3,10 @@
 //
 //   URL=http://127.0.0.1:5173/ OUT=verification node scripts/verify.mjs
 //
+// Set CDN_CACHE=<dir> (from scripts/cache-cdn.mjs) to answer the Lenis CDN
+// script and Google Fonts from local copies when the test browser can't reach
+// those hosts itself.
+//
 // Scrolls every pinned chapter to several points mid-scroll and screenshots
 // them, reads the live overlay values, drives the lens, the drag-to-spin
 // viewer, the order card and the sound toggle, then repeats the chapters on a
@@ -12,6 +16,8 @@ import fs from 'node:fs';
 
 const URL = process.env.URL || 'http://127.0.0.1:5173/';
 const OUT = process.env.OUT || 'verification';
+const CDN_CACHE = process.env.CDN_CACHE;
+const cdnIndex = CDN_CACHE ? JSON.parse(fs.readFileSync(`${CDN_CACHE}/index.json`, 'utf8')) : null;
 fs.mkdirSync(OUT, { recursive: true });
 
 const problems = [];
@@ -27,6 +33,16 @@ const browser = await chromium.launch({ args: ['--autoplay-policy=no-user-gestur
 
 async function open(viewport, opts = {}) {
   const context = await browser.newContext({ viewport, deviceScaleFactor: 1, ...opts });
+  if (cdnIndex) {
+    await context.route(/^https:\/\/(cdn\.jsdelivr\.net|fonts\.googleapis\.com|fonts\.gstatic\.com)\//, (route) => {
+      const hit = cdnIndex[route.request().url()];
+      if (!hit) {
+        problems.push(`cdn: no cached copy of ${route.request().url()}`);
+        return route.abort();
+      }
+      return route.fulfill({ path: `${CDN_CACHE}/${hit.file}`, contentType: hit.type, headers: { 'access-control-allow-origin': '*' } });
+    });
+  }
   const page = await context.newPage();
   page.on('console', (m) => m.type() === 'error' && problems.push(`console: ${m.text()}`));
   page.on('pageerror', (e) => problems.push(`pageerror: ${e.message}`));

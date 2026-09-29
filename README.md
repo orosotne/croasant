@@ -9,11 +9,18 @@ LAMINA is not a real bakery and nothing on the site talks to a server.
 ## Run it
 
 ```bash
+git clone https://github.com/orosotne/croasant.git
+cd croasant
+git checkout claude/lamina-croissant-website-ijrty2
 npm install
 npm run dev          # http://127.0.0.1:5173
 ```
 
 `npm run build && npm run preview` serves the production build on port 4173.
+Fonts (Inter Tight, Instrument Serif, JetBrains Mono) load from Google Fonts.
+
+A hosted copy is published as a private claude.ai artifact:
+https://claude.ai/artifact/KPowk7WKwrWPdx3LHDiznn
 
 ## What's on the page
 
@@ -49,7 +56,7 @@ records every job id, prompt and reference.
 npm run media:fetch    # download sources into media/src (git-ignored)
 npm run media:plates   # hero / X-ray / thermal / lineup plates → public/img
 npm run media:frames   # trim Kling's holds, slice 200 frames at 1920 and 960 px
-node scripts/analyze-frames.mjs   # measure snap timing, slice positions, crust colour
+npm run media:analyze  # measure snap timing, slice positions, crust colour
 ```
 
 `scripts/detect-hold.mjs` finds the frames Kling holds on the start image (and
@@ -67,11 +74,31 @@ oven readout's colour name.
 Restart `npm run dev` after regenerating frames: Vite indexes `public/` when it
 starts and can miss folders that are deleted and recreated underneath it.
 
+## Publish as a claude.ai artifact
+
+```bash
+npm run artifact       # builds media/tmp/artifact
+```
+
+An artifact serves only standard web file types, admits scripts from a few
+CDNs, and holds at most 511 files per version. The build therefore inlines the
+CSS and JS into a page fragment, loads Lenis from a pinned jsDelivr build,
+and tiles the 2,000 frames into 315 WebP sprite atlases (3840×2160: 2×2 frames
+at 1920 px, 4×4 at 960 px). The loader draws each frame from its tile. The 180 MB
+bundle goes up in four publishes of ≤64 MB. The first publish uses
+`manifest-960.json`, so the page works before the 1920 px atlases land.
+
 ## Verify
 
 ```bash
 URL=http://127.0.0.1:5173/ OUT=verification node scripts/verify.mjs
 ```
+
+Behind a TLS-intercepting proxy the test browser may refuse the CDN script and
+Google Fonts. `node scripts/cache-cdn.mjs` mirrors them with curl, and
+`CDN_CACHE=media/tmp/cdn-cache` makes the verification serve those copies.
+Point `URL` at `media/tmp/artifact/_preview.html` (served statically) to check
+the artifact build the same way.
 
 Headless Chromium scrolls every chapter to several points mid-scroll and
 screenshots them, reads the live overlay values, drives the lens, the viewer,

@@ -5,7 +5,7 @@
 // across the pinned stretch; every overlay is a pure function of p, so
 // scrolling back up plays everything in reverse (including the un-crunch).
 
-import { drawFrame } from './lib/frames.js';
+import { drawFrame, frameKey } from './lib/frames.js';
 import {
   clamp, range, fade, keyframes, easeInOut, easeOut, easeIn, smooth,
   pad, fmtInt, setStyle, setText,
@@ -60,7 +60,7 @@ class Chapter {
 
   paint(index, opts, loop = false) {
     const img = loop ? this.seq.frameLoop(index) : this.seq.frame(index);
-    const key = `${img ? img.src : 'none'}|${opts.s?.toFixed?.(4)}|${opts.x?.toFixed?.(4)}|${opts.y?.toFixed?.(4)}|${this.W}x${this.H}`;
+    const key = `${frameKey(img)}|${opts.s?.toFixed?.(4)}|${opts.x?.toFixed?.(4)}|${opts.y?.toFixed?.(4)}|${this.W}x${this.H}`;
     if (key === this.key) return;
     this.key = key;
     const { ctx, W, H } = this;

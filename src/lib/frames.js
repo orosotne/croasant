@@ -5,8 +5,35 @@
 // immediately and sharpens in as the gaps fill. Frames stay as <img> elements
 // rather than ImageBitmaps: the browser can then evict decoded pixels under
 // memory pressure instead of us pinning ~1.6 GB of RGBA per film.
+//
+// Frames arrive one of two ways:
+//   - one file per frame (frames/<film>/<width>/NNN.webp), the default;
+//   - sprite atlases: 3840×2160 WebPs tiling consecutive frames (built by
+//     scripts/atlas-frames.mjs for hosts that cap the file count). A loaded
+//     atlas fills all of its frames at once; each frame then draws from its tile.
+//
+// A frame is either an <img> (drawn whole) or { img, sx, sy, sw, sh, key }
+// (drawn from a tile). drawFrame() and frameKey() accept both.
 
 const pad3 = (i) => String(i).padStart(3, '0');
+
+/** Stable identity for a frame, used to skip redundant repaints. */
+export const frameKey = (f) => (f ? f.key || f.src : 'none');
+
+function progressiveOrder(count) {
+  const seen = new Uint8Array(count);
+  const out = [];
+  for (const stride of [32, 16, 8, 4, 2, 1]) {
+    for (let i = 0; i < count; i += stride) {
+      if (!seen[i]) {
+        seen[i] = 1;
+        out.push(i);
+      }
+    }
+  }
+  if (count && !seen[count - 1]) out.push(count - 1);
+  return out;
+}
 
 export class FrameSequence {
   constructor(name, count, width) {
@@ -16,27 +43,41 @@ export class FrameSequence {
     this.images = new Array(count).fill(null);
     this.loaded = 0;
     this.priority = 1e9; // lower loads first; updated from scroll distance
-    this.queue = this.progressiveOrder();
+    this.queue = progressiveOrder(count);
+    this.atlas = null;
     this.listeners = new Set();
   }
 
   url(i) {
-    return `/frames/${this.name}/${this.width}/${pad3(i)}.webp`;
+    return `frames/${this.name}/${this.width}/${pad3(i)}.webp`;
   }
 
-  progressiveOrder() {
-    const seen = new Uint8Array(this.count);
+  /** Load from sprite atlases: { cols, rows, w, h, files: [...] }. Atlases still load progressively. */
+  useAtlases(atlas) {
+    this.atlas = atlas;
+    this.queue = progressiveOrder(atlas.files.length);
+  }
+
+  /** Frames held by atlas a, with their source rectangles. */
+  atlasFrames(a) {
+    const { cols, rows, w, h } = this.atlas;
+    const per = cols * rows;
     const out = [];
-    for (const stride of [32, 16, 8, 4, 2, 1]) {
-      for (let i = 0; i < this.count; i += stride) {
-        if (!seen[i]) {
-          seen[i] = 1;
-          out.push(i);
-        }
-      }
+    for (let t = 0; t < per; t++) {
+      const i = a * per + t;
+      if (i >= this.count) break;
+      out.push([i, (t % cols) * w, Math.floor(t / cols) * h]);
     }
-    if (!seen[this.count - 1]) out.push(this.count - 1);
     return out;
+  }
+
+  /** Called once per frame, whether it decoded or not. */
+  settle(i, frame) {
+    if (frame) {
+      this.images[i] = frame;
+      this.listeners.forEach((fn) => fn(this, i));
+    }
+    this.loaded++;
   }
 
   get done() {
@@ -77,21 +118,42 @@ export class FrameSequence {
   }
 }
 
-/** Load and decode one frame, retrying transient failures (aborted requests, busy dev servers). */
+// Chrome rejects decode() when too many large images decode at once, so keep
+// a few in flight. A refused pre-decode of an image that did load is still
+// usable: the browser decodes it at first draw instead.
+const decoding = { active: 0, max: 4, waiting: [] };
+function decodeImage(img) {
+  return new Promise((resolve, reject) => {
+    const run = () => {
+      decoding.active++;
+      img
+        .decode()
+        .then(
+          () => resolve(img),
+          (err) => (img.complete && img.naturalWidth ? resolve(img) : reject(err)),
+        )
+        .finally(() => {
+          decoding.active--;
+          decoding.waiting.shift()?.();
+        });
+    };
+    if (decoding.active < decoding.max) run();
+    else decoding.waiting.push(run);
+  });
+}
+
+/** Load and decode one image, retrying transient failures (aborted requests, busy servers). */
 function load(url, attempt = 0) {
   const img = new Image();
   img.decoding = 'async';
   img.src = attempt ? `${url}?retry=${attempt}` : url;
-  return img.decode().then(
-    () => img,
-    (err) => {
-      if (attempt >= 2) throw err;
-      return new Promise((r) => setTimeout(r, 250 * (attempt + 1))).then(() => load(url, attempt + 1));
-    },
-  );
+  return decodeImage(img).catch((err) => {
+    if (attempt >= 2) throw err;
+    return new Promise((r) => setTimeout(r, 250 * (attempt + 1))).then(() => load(url, attempt + 1));
+  });
 }
 
-/** One shared queue so films never compete for the browser's six connections. */
+/** One shared queue so films never compete for the browser's connections. */
 export class FrameLoader {
   constructor(concurrency = 6) {
     this.concurrency = concurrency;
@@ -116,33 +178,41 @@ export class FrameLoader {
     while (this.active < this.concurrency) {
       const seq = this.next();
       if (!seq) return;
-      const i = seq.queue.shift();
+      const job = seq.queue.shift();
       this.active++;
-      load(seq.url(i))
-        .then((img) => {
-          seq.images[i] = img;
-          seq.listeners.forEach((fn) => fn(seq, i));
-        })
-        .catch(() => {
+      let work;
+      if (seq.atlas) {
+        const tiles = seq.atlasFrames(job);
+        const { w, h } = seq.atlas;
+        work = load(seq.atlas.files[job]).then(
+          (img) => tiles.forEach(([i, sx, sy]) => seq.settle(i, { img, sx, sy, sw: w, sh: h, key: `${img.src}#${i}` })),
+          () => tiles.forEach(([i]) => seq.settle(i, null)),
+        );
+      } else {
+        work = load(seq.url(job)).then(
+          (img) => seq.settle(job, img),
           // Still failing after retries: leave a gap; frame() falls back to its neighbours.
-        })
-        .finally(() => {
-          seq.loaded++;
-          this.active--;
-          this.pump();
-        });
+          () => seq.settle(job, null),
+        );
+      }
+      work.finally(() => {
+        this.active--;
+        this.pump();
+      });
     }
   }
 }
 
 /**
- * Draw an image into a canvas-sized box.
+ * Draw a frame into a canvas-sized box.
  * fit: 'contain' | 'cover' | number (frame width as a multiple of canvas width).
  * s scales around the box centre; x/y shift by fractions of the canvas size.
  */
-export function drawFrame(ctx, img, W, H, { fit = 'contain', s = 1, x = 0, y = 0 } = {}) {
-  const iw = img.naturalWidth || img.width;
-  const ih = img.naturalHeight || img.height;
+export function drawFrame(ctx, frame, W, H, { fit = 'contain', s = 1, x = 0, y = 0 } = {}) {
+  const tiled = !(frame instanceof HTMLImageElement);
+  const img = tiled ? frame.img : frame;
+  const iw = tiled ? frame.sw : img.naturalWidth || img.width;
+  const ih = tiled ? frame.sh : img.naturalHeight || img.height;
   let dw;
   if (fit === 'cover') dw = Math.max(W, (H * iw) / ih);
   else if (fit === 'contain') dw = Math.min(W, (H * iw) / ih);
@@ -151,6 +221,7 @@ export function drawFrame(ctx, img, W, H, { fit = 'contain', s = 1, x = 0, y = 0
   const dh = (dw * ih) / iw;
   const dx = (W - dw) / 2 + x * W;
   const dy = (H - dh) / 2 + y * H;
-  ctx.drawImage(img, dx, dy, dw, dh);
+  if (tiled) ctx.drawImage(img, frame.sx, frame.sy, iw, ih, dx, dy, dw, dh);
+  else ctx.drawImage(img, dx, dy, dw, dh);
   return { dx, dy, dw, dh };
 }

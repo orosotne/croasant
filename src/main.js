@@ -1,11 +1,3 @@
-import '@fontsource/inter-tight/400.css';
-import '@fontsource/inter-tight/500.css';
-import '@fontsource/inter-tight/600.css';
-import '@fontsource/inter-tight/700.css';
-import '@fontsource/instrument-serif/400.css';
-import '@fontsource/instrument-serif/400-italic.css';
-import '@fontsource/jetbrains-mono/400.css';
-import '@fontsource/jetbrains-mono/500.css';
 import 'lenis/dist/lenis.css';
 import './styles.css';
 
@@ -31,11 +23,15 @@ function frameWidth() {
 }
 
 async function boot() {
-  const manifest = await fetch('/frames/manifest.json').then((r) => r.json());
+  const manifest = await fetch('frames/manifest.json').then((r) => r.json());
   const events = manifest.events || {};
-  const width = frameWidth();
+  let width = frameWidth();
+  // Atlas builds (for hosts with a file-count cap) may ship only some sizes.
+  const atlases = manifest.atlases;
+  if (atlases && !atlases[width]) width = Number(Object.keys(atlases)[0]);
   const loader = new FrameLoader(6);
   const seqs = Object.fromEntries(FILMS.map((f) => [f, new FrameSequence(f, manifest[f].count, width)]));
+  if (atlases) FILMS.forEach((f) => seqs[f].useAtlases({ ...atlases[width], files: atlases[width].films[f] }));
   seqs.spin.priority = 0;
   FILMS.forEach((f) => loader.add(seqs[f]));
 
@@ -76,7 +72,11 @@ async function boot() {
     if (!target && a.hash !== '#top') return;
     e.preventDefault();
     lenis.scrollTo(a.hash === '#top' ? 0 : target, { duration: reduced ? 0 : 1.6 });
-    history.replaceState(null, '', a.hash);
+    try {
+      history.replaceState(null, '', a.hash);
+    } catch {
+      // Sandboxed frames may refuse history edits; the scroll already happened.
+    }
   });
   railItems.forEach((li) =>
     li.addEventListener('click', () => lenis.scrollTo(byId(li.dataset.rail), { duration: reduced ? 0 : 1.6 })),
@@ -163,7 +163,7 @@ async function boot() {
       const r = clamp(seqs.spin.loaded / need);
       setStyle(overlay, '--p', r.toFixed(3));
       pct.textContent = String(Math.round(r * 100)).padStart(3, '0');
-      if (r >= 1 || performance.now() - started > 6000) resolve();
+      if (r >= 1 || performance.now() - started > 4000) resolve();
       else setTimeout(check, 60);
     };
     check();
