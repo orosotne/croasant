@@ -27,7 +27,13 @@
     "show": {
       "job": "a77fe2ee-c48e-472b-9ecd-ca4a7be083da",
       "url": "https://d8j0ntlcm91z4.cloudfront.net/user_30Exrv2KyRLcxoHJbsf7JaqCAEe/hf_20260929_115207_a77fe2ee-c48e-472b-9ecd-ca4a7be083da.mp4",
-      "fps": 15
+      "fps": 15,
+      "trim": [
+        0,
+        4.2
+      ],
+      "pingpong": true,
+      "arc": 110
     },
     "proof": {
       "job": "fffea479-02d2-438a-a3bf-4171ad036ac6",

@@ -75,7 +75,7 @@ do { await page.waitForTimeout(100); s = await sample(); } while (s.y > 2 && Dat
 console.log('UNDO ⌘Z back to top in', Date.now() - t0, 'ms', JSON.stringify(s));
 
 // Beats further down the page.
-for (const [id, frac, name] of [['show', 0.25, '03-show'], ['proof', 0.8, '04-proof']]) {
+for (const [id, frac, name] of [['restore', 0.45, '01a-restore-mid'], ['restore', 0.96, '01b-restore-end'], ['show', 0.25, '03-show'], ['show', 0.5, '03b-show-apex'], ['proof', 0.8, '04-proof']]) {
   await page.evaluate(([id, frac]) => { const el = document.getElementById(id); const y = el.offsetTop + (el.offsetHeight - innerHeight) * frac; window.__undo.lenis ? window.__undo.lenis.scrollTo(y, { immediate: true }) : scrollTo(0, y); }, [id, frac]);
   await page.waitForTimeout(900); await snap(name);
 }
@@ -105,6 +105,9 @@ await m.goto(url, { waitUntil: 'networkidle' });
 await m.waitForSelector('.loader.is-done', { state: 'attached', timeout: 20000 });
 await m.waitForTimeout(800);
 await m.screenshot({ path: `${out}/07-mobile-top.png` });
+await m.evaluate(() => { const el = document.getElementById('restore'); const y = el.offsetTop + (el.offsetHeight - innerHeight) * 0.6; window.__undo.lenis ? window.__undo.lenis.scrollTo(y, { immediate: true }) : scrollTo(0, y); });
+await m.waitForTimeout(900);
+await m.screenshot({ path: `${out}/08-mobile-restore.png` });
 const overflow = await m.evaluate(() => document.documentElement.scrollWidth - innerWidth);
 console.log('MOBILE horizontal overflow px:', overflow);
 console.log('ERRORS', errors.length ? errors : 'none');

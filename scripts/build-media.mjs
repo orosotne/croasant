@@ -5,7 +5,7 @@
 //   node scripts/build-media.mjs            # download + bake
 //   FFMPEG=/path/to/ffmpeg node scripts/... # override ffmpeg binary
 import { execFileSync } from 'node:child_process';
-import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 const root = new URL('..', import.meta.url).pathname;
@@ -77,9 +77,23 @@ for (const [name, f] of Object.entries(cfg.films)) {
     mkdirSync(dir, { recursive: true });
     run([...trim, '-i', raw, '-vf', `fps=${f.fps},scale=${width}:-2:flags=lanczos`, '-q:v', String(q), join(dir, '%04d.jpg')]);
   }
-  const count = readdirSync(join(out, name, 'lg')).filter((n) => n.endsWith('.jpg')).length;
+  let count = readdirSync(join(out, name, 'lg')).filter((n) => n.endsWith('.jpg')).length;
+  // Ping-pong: play the clean part of the move out and back, so the loop is
+  // seamless by construction and never reaches the angles where the car deforms.
+  if (f.pingpong) {
+    for (const tier of ['lg', 'sm']) {
+      const dir = join(out, name, tier);
+      const file = (i) => join(dir, `${String(i).padStart(4, '0')}.jpg`);
+      for (let i = count - 1; i >= 1; i--) copyFileSync(file(i), file(2 * count - i));
+    }
+  }
   const curveArgs = f.trim ? `trim=${f.trim[0]}:${f.trim[1]},setpts=PTS-STARTPTS,fps=${f.fps}` : `fps=${f.fps}`;
-  manifest.films[name] = { count, path: `/media/${name}`, curve: changeCurve(raw, curveArgs, count) };
+  let curve = changeCurve(raw, curveArgs, count);
+  if (f.pingpong) {
+    curve = [...curve.map((v) => v / 2), ...curve.slice(0, -1).reverse().map((v) => 1 - v / 2)];
+    count = 2 * count - 1;
+  }
+  manifest.films[name] = { count, path: `/media/${name}`, curve, ...(f.arc && { arc: f.arc }) };
   console.log(`film ${name} ✓ ${count} frames`);
 }
 

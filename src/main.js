@@ -46,13 +46,13 @@ async function boot() {
       el: $('#restore'),
       seq: new Sequence($('[data-canvas="restore"]'), {
         film: films.restore,
-        focal: { fx: 0.62, fy: 0.5 },
+        focal: { fx: 0.4, fy: 0.5 },
         // Plate wipe: the restoration line sweeps front to rear across the car.
         fallback(ctx, w, h, p) {
           if (!plates.before) return placeholder(ctx, w, h, 'RESTORATION FILM PENDING');
           const t = smooth(0.04, 0.92, p);
           const zoom = 1 + t * 0.06;
-          const opts = { fx: 0.62, fy: 0.5, zoom };
+          const opts = { fx: 0.4, fy: 0.5, zoom };
           drawCover(ctx, plates.before, w, h, opts);
           if (!plates.after) return;
           const x = w * (-0.05 + t * 1.1);
@@ -175,8 +175,9 @@ async function boot() {
   }
 
   function updateShow(p) {
-    // Out to 180°, then home again.
-    const deg = p < 0.5 ? p * 2 * 180 : (1 - p) * 2 * 180;
+    // Out to the film's arc, then home again.
+    const arc = films.show?.arc ?? 180;
+    const deg = p < 0.5 ? p * 2 * arc : (1 - p) * 2 * arc;
     put(ui.orbit, 'text', pad(Math.round(deg), 3));
     put(ui.orbitDir, 'text', p < 0.5 ? '→ OUT' : '← HOME');
     const a = smooth(0.02, 0.14, p) * (1 - smooth(0.86, 0.98, p));
@@ -187,7 +188,7 @@ async function boot() {
     const deg = 110 * smooth(0.06, 0.72, p);
     put(ui.angle, 'text', pad(Math.round(deg), 3));
     put(ui.angleBar, 'width', `${(deg / 120) * 100}%`);
-    put(ui.proofState, 'text', deg < 90 ? 'WETTING' : deg < 109.5 ? 'HYDROPHOBIC' : 'BEADING · PASS');
+    put(ui.proofState, 'text', deg < 90 ? 'WETTING' : deg < 109.5 ? 'HYDROPHOBIC' : 'BEADING');
     put(ui.slide, 'text', deg < 100 ? '—' : `${Math.round(8 + (110 - deg) * 1.2)}°`);
     const key = Math.round(deg * 4);
     if (put.lastDrop !== key) { put.lastDrop = key; drawDrop(Math.max(6, deg)); }
@@ -197,7 +198,7 @@ async function boot() {
   function drawDrop(deg) {
     const th = (deg * Math.PI) / 180;
     const cx = 100, base = 100;
-    const a = 70 - 38 * (deg / 110); // spreads flat when wetting, stands tall when beading
+    const a = 84 - 42 * (deg / 110); // spreads flat when wetting, stands tall when beading
     const R = a / Math.sin(th);
     const large = deg > 90 ? 1 : 0;
     ui.dropPath.setAttribute('d', `M ${cx - a} ${base} A ${R} ${R} 0 ${large} 1 ${cx + a} ${base} Z`);
