@@ -196,17 +196,20 @@
           <h2 class="h2">See straight <em class="serif">through it.</em></h2>
           <p class="section-copy">Move the lens across Croissant Pro. The readout samples the pixel under the crosshair, live, from the X-ray or thermal plate.</p>
         </header>
-        <div class="lens__stage" tabindex="0" aria-label="Lens over Croissant Pro. Use arrow keys to move it.">
-          <img class="lens__base" src="/img/hero.webp" alt="Croissant Pro floating on black" width="2560" height="1440" decoding="async" />
-          <img class="lens__layer is-active" data-mode="xray" src="/img/xray.webp" alt="" width="2560" height="1440" decoding="async" />
-          <img class="lens__layer" data-mode="thermal" src="/img/thermal.webp" alt="" width="2560" height="1440" decoding="async" />
-          <div class="lens__ring" aria-hidden="true">
-            <i class="lens__cross"></i>
-            <span class="lens__tag mono">X-RAY</span>
-          </div>
-          <div class="lens__modes" role="tablist" aria-label="Lens mode">
-            <button type="button" role="tab" aria-selected="true" data-lens-mode="xray">X-ray</button>
-            <button type="button" role="tab" aria-selected="false" data-lens-mode="thermal">Thermal</button>
+        <div class="lens__wrap">
+          <div class="lens__stage" tabindex="0" aria-label="Lens over Croissant Pro. Use arrow keys to move it.">
+            <img class="lens__base" src="/img/hero.webp" alt="Croissant Pro floating on black" width="2560" height="1440" decoding="async" />
+            <img class="lens__layer is-active" data-mode="xray" src="/img/xray.webp" alt="" width="2560" height="1440" decoding="async" />
+            <img class="lens__layer" data-mode="thermal" src="/img/thermal.webp" alt="" width="2560" height="1440" decoding="async" />
+            <div class="lens__ring" aria-hidden="true">
+              <i class="lens__cross"></i>
+              <span class="lens__tag mono">X-RAY</span>
+            </div>
+            <div class="lens__modes" role="tablist" aria-label="Lens mode">
+              <button type="button" role="tab" aria-selected="true" data-lens-mode="xray">X-ray</button>
+              <button type="button" role="tab" aria-selected="false" data-lens-mode="thermal">Thermal</button>
+            </div>
+            <div class="lens__scale" aria-hidden="true"><span class="mono lo"></span><i></i><span class="mono hi"></span></div>
           </div>
           <dl class="lens__readout mono">
             <div><dt>X</dt><dd data-r="x">—</dd></div>
@@ -216,7 +219,6 @@
             <div class="wide"><dt data-r="k2">Radiodensity</dt><dd data-r="v2">—</dd></div>
             <div class="wide"><dt data-r="k3">Material</dt><dd data-r="v3">—</dd></div>
           </dl>
-          <div class="lens__scale" aria-hidden="true"><span class="mono lo"></span><i></i><span class="mono hi"></span></div>
         </div>
       </section>
 

@@ -15,6 +15,7 @@ const OUT = process.env.OUT || 'verification';
 fs.mkdirSync(OUT, { recursive: true });
 
 const problems = [];
+const frameRetries = [];
 const report = [];
 const log = (...a) => {
   const line = a.join(' ');
@@ -29,11 +30,23 @@ async function open(viewport, opts = {}) {
   const page = await context.newPage();
   page.on('console', (m) => m.type() === 'error' && problems.push(`console: ${m.text()}`));
   page.on('pageerror', (e) => problems.push(`pageerror: ${e.message}`));
-  page.on('requestfailed', (r) => problems.push(`requestfailed: ${r.url()} ${r.failure()?.errorText}`));
+  page.on('requestfailed', (r) => {
+    // A frame the loader retries is only a problem if it never decodes (checked below).
+    const bucket = /\/frames\/.+\.webp/.test(r.url()) ? frameRetries : problems;
+    bucket.push(`requestfailed: ${r.url()} ${r.failure()?.errorText}`);
+  });
   page.on('response', (r) => r.status() >= 400 && problems.push(`http ${r.status()}: ${r.url()}`));
   await page.goto(URL, { waitUntil: 'load' });
   await page.waitForFunction(() => document.documentElement.classList.contains('is-ready'), null, { timeout: 60000 });
   await page.waitForFunction(() => Object.values(window.__lamina.seqs).every((s) => s.done), null, { timeout: 240000 });
+  const frames = await page.evaluate(() =>
+    Object.fromEntries(Object.entries(window.__lamina.seqs).map(([k, s]) => [k, `${s.images.filter(Boolean).length}/${s.count} @${s.width}px`])),
+  );
+  log('frames decoded:', JSON.stringify(frames));
+  for (const [k, v] of Object.entries(frames)) {
+    const [got, total] = v.split(' ')[0].split('/').map(Number);
+    if (got !== total) problems.push(`frames: ${k} decoded ${got}/${total}`);
+  }
   return page;
 }
 
@@ -232,6 +245,7 @@ await phone.context().close();
 
 await browser.close();
 
+if (frameRetries.length) log(`note: ${frameRetries.length} frame request(s) aborted and were retried by the loader`);
 log(`\n${problems.length ? 'PROBLEMS' : 'OK'}: ${problems.length} problem(s)`);
 problems.forEach((p) => log('  -', p));
 fs.writeFileSync(`${OUT}/report.txt`, report.join('\n') + '\n');

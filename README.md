@@ -54,7 +54,18 @@ node scripts/analyze-frames.mjs   # measure snap timing, slice positions, crust 
 
 `scripts/detect-hold.mjs` finds the frames Kling holds on the start image (and
 on the end image) by measuring each frame's distance from the first/last frame,
-so slow films like the bake time-lapse are not mistaken for static ones.
+so slow films like the bake time-lapse are not mistaken for static ones. On
+these films it trimmed 6 (spin), 9 (crunch) and 15 (lamination) held frames at
+the start; crumb and bake move from their first frame.
+
+`scripts/analyze-frames.mjs` measures what the overlays sync to: the frame
+where the crunch's crack splits open (dark gap pixels appearing inside the
+croissant's silhouette), the position of each of the seven slices, and the
+crust colour per bake frame with its browning index (CIELAB), which drives the
+oven readout's colour name.
+
+Restart `npm run dev` after regenerating frames: Vite indexes `public/` when it
+starts and can miss folders that are deleted and recreated underneath it.
 
 ## Verify
 

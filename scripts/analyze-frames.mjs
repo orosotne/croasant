@@ -27,23 +27,34 @@ function decode(film, w, h, pixFmt, only) {
 const luma = (r, g, b) => 0.2126 * r + 0.7152 * g + 0.0722 * b;
 const events = manifest.events || {};
 
-/* crunch: onset of the largest motion spike */
+/* crunch: the moment the crack splits open.
+   Kling moves the croissant steadily the whole time, so raw motion can't see
+   the break. Instead, count dark "gap" pixels inside the unbroken croissant's
+   silhouette: they stay near zero until the crack opens, then climb as the
+   halves part. The snap is where that count first clears a small threshold. */
 {
   const W = 192, H = 108, S = W * H;
   const raw = decode('crunch', W, H, 'gray');
   const n = raw.length / S;
-  const d = [];
-  for (let i = 0; i < n - 1; i++) {
-    let s = 0;
-    for (let p = 0; p < S; p++) s += Math.abs(raw[i * S + p] - raw[(i + 1) * S + p]);
-    d.push(s / S);
+  const inside = new Uint8Array(S);
+  for (let y = 3; y < H - 3; y++) {
+    for (let x = 3; x < W - 3; x++) {
+      let solid = true;
+      for (let dy = -3; dy <= 3 && solid; dy++) for (let dx = -3; dx <= 3 && solid; dx++) solid = raw[(y + dy) * W + x + dx] > 45;
+      inside[y * W + x] = solid ? 1 : 0;
+    }
   }
-  const sm = d.map((_, i) => (d[Math.max(0, i - 1)] + d[i] + d[Math.min(d.length - 1, i + 1)]) / 3);
-  const peak = sm.indexOf(Math.max(...sm));
-  let onset = peak;
-  while (onset > 0 && sm[onset - 1] > sm[peak] * 0.45) onset--;
-  events.crunch = { snap: +(onset / (n - 1)).toFixed(4), peak: +(peak / (n - 1)).toFixed(4) };
-  console.log('crunch', events.crunch, 'diffs', sm.map((v) => v.toFixed(1)).join(' '));
+  const area = inside.reduce((a, b) => a + b, 0);
+  const gap = [];
+  for (let f = 0; f < n; f++) {
+    let g = 0;
+    for (let p = 0; p < S; p++) if (inside[p] && raw[f * S + p] < 32) g++;
+    gap.push(g / area);
+  }
+  const snapAt = gap.findIndex((g) => g > 0.012);
+  const snap = snapAt < 0 ? 0.15 : snapAt / (n - 1);
+  events.crunch = { snap: +snap.toFixed(4) };
+  console.log('crunch', events.crunch, 'gap%', gap.filter((_, i) => i % 5 === 0).map((g) => (g * 100).toFixed(1)).join(' '));
 }
 
 /* lamination: seven slice columns in the last frame */
@@ -136,21 +147,44 @@ const events = manifest.events || {};
     }
     colors.push([r / k, g / k, b / k]);
   }
-  const L = colors.map(([r, g, b]) => luma(r, g, b));
-  const L0 = L.slice(0, 4).reduce((a, b) => a + b) / 4;
-  const L1 = L.slice(-4).reduce((a, b) => a + b) / 4;
+  // Browning index (Buera et al.), the standard food-science measure of crust
+  // colour, from CIELAB. Luminance alone misses the yellowing phase: under the
+  // oven's orange light the dough stays bright until late in the bake.
+  const lab = ([r, g, b]) => {
+    const lin = (c) => ((c /= 255) <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4);
+    const [R, G, B] = [lin(r), lin(g), lin(b)];
+    const f = (t) => (t > 0.008856 ? Math.cbrt(t) : 7.787 * t + 16 / 116);
+    const X = f((0.4124 * R + 0.3576 * G + 0.1805 * B) / 0.95047);
+    const Y = f(0.2126 * R + 0.7152 * G + 0.0722 * B);
+    const Z = f((0.0193 * R + 0.1192 * G + 0.9505 * B) / 1.08883);
+    return [116 * Y - 16, 500 * (X - Y), 200 * (Y - Z)];
+  };
+  const browning = (rgb) => {
+    const [L, a, b] = lab(rgb);
+    const x = (a + 1.75 * L) / (5.645 * L + a - 3.012 * b);
+    return (100 * (x - 0.31)) / 0.17;
+  };
+  // Light smoothing over five frames, then normalise raw → done.
+  const smoothed = colors.map((_, i) => {
+    const win = colors.slice(Math.max(0, i - 2), i + 3);
+    return [0, 1, 2].map((k) => win.reduce((s, c) => s + c[k], 0) / win.length);
+  });
+  const BI = smoothed.map(browning);
+  const B0 = BI.slice(0, 4).reduce((a, b) => a + b) / 4;
+  const B1 = BI.slice(-4).reduce((a, b) => a + b) / 4;
   let tPrev = 0;
   events.bake = {
     spot: { x: +(cx / W).toFixed(4), y: +(cy / H).toFixed(4) },
-    colors: colors.map(([r, g, b], i) => {
+    colors: smoothed.map(([r, g, b], i) => {
       // Monotonic so the colour name never steps backwards mid-bake.
-      const t = Math.max(tPrev, Math.min(1, Math.max(0, (L0 - L[i]) / (L0 - L1 || 1))));
+      const t = Math.max(tPrev, Math.min(1, Math.max(0, (BI[i] - B0) / (B1 - B0 || 1))));
       tPrev = t;
       const hex = `#${[r, g, b].map((v) => Math.round(v).toString(16).padStart(2, '0')).join('')}`;
       return { hex, t: +t.toFixed(3) };
     }),
   };
-  console.log('bake spot', events.bake.spot, 'L0', L0.toFixed(1), 'L1', L1.toFixed(1), 'first', events.bake.colors[0], 'last', events.bake.colors.at(-1));
+  const at = (q) => events.bake.colors[Math.round(q * (n - 1))];
+  console.log('bake spot', events.bake.spot, 'BI', B0.toFixed(1), '→', B1.toFixed(1), 't@25/50/75%', at(0.25).t, at(0.5).t, at(0.75).t, 'first', at(0), 'last', at(1));
 }
 
 manifest.events = events;

@@ -87,10 +87,10 @@ const SPIN_LAND = [
   [0.07, { s: 0.4, x: 0, y: 0.215 }],
   [0.3, { s: 1.12, x: 0, y: 0.02 }],
   [0.4, { s: 1.12, x: 0, y: 0.02 }],
-  [0.5, { s: 0.86, x: -0.215, y: 0.01 }],
-  [0.62, { s: 0.86, x: -0.215, y: 0.01 }],
-  [0.73, { s: 0.86, x: 0.215, y: 0.01 }],
-  [0.86, { s: 0.86, x: 0.215, y: 0.01 }],
+  [0.5, { s: 0.86, x: -0.2, y: 0.01 }],
+  [0.62, { s: 0.86, x: -0.2, y: 0.01 }],
+  [0.73, { s: 0.86, x: 0.2, y: 0.01 }],
+  [0.86, { s: 0.86, x: 0.2, y: 0.01 }],
   [0.97, { s: 1, x: 0, y: 0 }],
   [1.0, { s: 1, x: 0, y: 0 }],
 ];
@@ -131,6 +131,14 @@ export class SpinChapter extends Chapter {
 
 /* -------------------------------------------------------------- 02 CRUNCH */
 
+// Shared by Crunch and Lamination: clear the top-left heading, then centre.
+const HEADED_LAND = [
+  [0.0, { s: 0.84, x: 0.13, y: -0.03 }],
+  [0.08, { s: 0.84, x: 0.13, y: -0.03 }],
+  [0.24, { s: 1, x: 0, y: 0 }],
+  [1.0, { s: 1, x: 0, y: 0 }],
+];
+
 const METER_SEGMENTS = 28;
 const DB_FLOOR = 30;
 const DB_PEAK = 94;
@@ -149,7 +157,8 @@ export class CrunchChapter extends Chapter {
   update(p, sound) {
     const n = this.seq.count;
     const fp = range(p, 0.05, 0.86);
-    this.paint(fp * (n - 1), { fit: this.portrait ? 1.16 : 'contain' });
+    const k = this.portrait ? { s: 1, x: 0, y: 0 } : keyframes(HEADED_LAND, p);
+    this.paint(fp * (n - 1), { fit: this.portrait ? 1.16 : 'contain', ...k });
 
     // The meter's big number is a peak hold: it counts up as the crack builds
     // and lands on 94 at the break. The bars show the live level, which then decays.
@@ -207,7 +216,8 @@ export class LaminationChapter extends Chapter {
   update(p) {
     const n = this.seq.count;
     const fp = range(p, 0.07, 0.86);
-    this.paint(fp * (n - 1), { fit: this.portrait ? 1.06 : 'contain' });
+    const k = this.portrait ? { s: 1, x: 0, y: 0 } : keyframes(HEADED_LAND, p);
+    this.paint(fp * (n - 1), { fit: this.portrait ? 1.06 : 'contain', ...k });
 
     const layers = Math.round(81 * easeInOut(range(fp, 0.04, 0.96)));
     setText(this.el.count, pad(layers, 2));
@@ -218,7 +228,7 @@ export class LaminationChapter extends Chapter {
     const [x0] = this.toStage(0.04, 0);
     const [x1] = this.toStage(0.96, 0);
     setStyle(this.el.scan, 'transform', `translate3d(${(x0 + (x1 - x0) * fp).toFixed(1)}px,0,0)`);
-    setStyle(this.el.scan, 'opacity', (fade(fp, 0.0, 0.03, 0.96, 1) * 0.9).toFixed(3));
+    setStyle(this.el.scan, 'opacity', (fade(fp, 0.05, 0.11, 0.93, 0.99) * 0.9).toFixed(3));
 
     // CT labels: under each slice on wide screens (the layer counter owns the
     // top-right corner), above them on portrait screens (the HUDs own the bottom).
@@ -284,8 +294,9 @@ export class BakeChapter extends Chapter {
     const n = this.seq.count;
     const fp = range(p, 0.06, 0.93);
     const idx = Math.round(fp * (n - 1));
-    // On portrait screens the readout sits low, so lift the oven mouth above it.
-    this.paint(idx, this.portrait ? { fit: 'cover', s: 1.18, y: -0.08 } : { fit: 'cover' });
+    // Portrait: show the whole oven mouth at a fixed width, lifted above the
+    // readout, instead of a cover crop that is all croissant.
+    this.paint(idx, this.portrait ? { fit: 2.3, y: -0.12 } : { fit: 'cover', x: -0.045 });
 
     const secs = fp * BAKE_MINUTES * 60;
     setText(this.el.timer, `${pad(secs / 60)}:${pad(secs % 60)}`);

@@ -77,6 +77,20 @@ export class FrameSequence {
   }
 }
 
+/** Load and decode one frame, retrying transient failures (aborted requests, busy dev servers). */
+function load(url, attempt = 0) {
+  const img = new Image();
+  img.decoding = 'async';
+  img.src = attempt ? `${url}?retry=${attempt}` : url;
+  return img.decode().then(
+    () => img,
+    (err) => {
+      if (attempt >= 2) throw err;
+      return new Promise((r) => setTimeout(r, 250 * (attempt + 1))).then(() => load(url, attempt + 1));
+    },
+  );
+}
+
 /** One shared queue so films never compete for the browser's six connections. */
 export class FrameLoader {
   constructor(concurrency = 6) {
@@ -104,21 +118,16 @@ export class FrameLoader {
       if (!seq) return;
       const i = seq.queue.shift();
       this.active++;
-      const img = new Image();
-      img.decoding = 'async';
-      img.src = seq.url(i);
-      img
-        .decode()
-        .then(() => {
+      load(seq.url(i))
+        .then((img) => {
           seq.images[i] = img;
-          seq.loaded++;
           seq.listeners.forEach((fn) => fn(seq, i));
         })
         .catch(() => {
-          // A missing frame just leaves a gap; frame() falls back to its neighbours.
-          seq.loaded++;
+          // Still failing after retries: leave a gap; frame() falls back to its neighbours.
         })
         .finally(() => {
+          seq.loaded++;
           this.active--;
           this.pump();
         });
