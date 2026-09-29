@@ -1,0 +1,115 @@
+{
+  "project": "LAMINA — Croissant Pro launch (Higgsfield project c019c858-37d4-453b-886f-1544fdd6f7b1)",
+  "cdn": "https://d8j0ntlcm91z4.cloudfront.net/user_30Exrv2KyRLcxoHJbsf7JaqCAEe",
+  "stills": {
+    "_settings": "gpt_image_2_5, resolution 4k, quality high, 16:9 (3840x2160)",
+    "hero": {
+      "job": "4ed198c3-a1b6-477f-9c4a-336f31927251",
+      "file": "hf_20260929_111917_4ed198c3-a1b6-477f-9c4a-336f31927251.png",
+      "note": "single croissant, black void, rim light"
+    },
+    "a_crunch": {
+      "job": "1e20531c-9e91-40f2-a3f7-18781906d986",
+      "file": "hf_20260929_112301_1e20531c-9e91-40f2-a3f7-18781906d986.png",
+      "ref": "hero",
+      "note": "snapped in half, flake halo"
+    },
+    "b_slices": {
+      "job": "8f9252a2-2a69-44f3-a018-1cafe11482fc",
+      "file": "hf_20260929_112300_8f9252a2-2a69-44f3-a018-1cafe11482fc.png",
+      "ref": "hero",
+      "note": "seven CT-scan slices"
+    },
+    "c_xray": {
+      "job": "c7c55261-e73c-41a0-945c-8240351a0993",
+      "file": "hf_20260929_112300_c7c55261-e73c-41a0-945c-8240351a0993.png",
+      "ref": "hero",
+      "note": "X-ray, same position and size"
+    },
+    "d_thermal": {
+      "job": "554a0bc0-5ef7-4967-8e4d-8f15490e1c59",
+      "file": "hf_20260929_112301_554a0bc0-5ef7-4967-8e4d-8f15490e1c59.png",
+      "ref": "hero",
+      "note": "thermal ironbow, same position and size"
+    },
+    "e_crumb": {
+      "job": "ff69850a-3a74-4a89-baa5-f064b7312229",
+      "file": "hf_20260929_112259_ff69850a-3a74-4a89-baa5-f064b7312229.png",
+      "note": "macro honeycomb tunnel"
+    },
+    "e2_crumb_end": {
+      "job": "40c2b1a2-8768-469d-9aaf-259f6cd7020e",
+      "file": "hf_20260929_112823_40c2b1a2-8768-469d-9aaf-259f6cd7020e.png",
+      "ref": "e_crumb",
+      "note": "deeper in the same tunnel; crumb film end frame"
+    },
+    "f_oven_raw": {
+      "job": "4b49f934-a446-4ac4-bb3d-9edbb62af221",
+      "file": "hf_20260929_112300_4b49f934-a446-4ac4-bb3d-9edbb62af221.png",
+      "note": "raw croissant, deck oven"
+    },
+    "g_oven_baked": {
+      "job": "86ce585e-2c4d-4d45-af9c-63a3a4355853",
+      "file": "hf_20260929_112524_86ce585e-2c4d-4d45-af9c-63a3a4355853.png",
+      "ref": "f_oven_raw",
+      "note": "same oven frame, baked golden"
+    },
+    "p_almond": {
+      "job": "d2f5989a-0e03-4e4e-921c-3edcf55fdd43",
+      "file": "hf_20260929_112301_d2f5989a-0e03-4e4e-921c-3edcf55fdd43.png",
+      "ref": "hero",
+      "note": "lineup: Croissant Pro Max (almond)"
+    },
+    "p_painchoc": {
+      "job": "cceb386c-07fd-42a7-9cd4-f4798f1013f3",
+      "file": "hf_20260929_112300_cceb386c-07fd-42a7-9cd4-f4798f1013f3.png",
+      "ref": "hero",
+      "note": "lineup: Pain au Chocolat Air"
+    },
+    "p_kouign": {
+      "job": "61f0d222-dbe1-48b8-9417-685f2dc995ec",
+      "file": "hf_20260929_112259_61f0d222-dbe1-48b8-9417-685f2dc995ec.png",
+      "ref": "hero",
+      "note": "lineup: Kouign-Amann Ultra"
+    }
+  },
+  "films": {
+    "_settings": "kling3_0, mode 4k, duration 10, sound off, 16:9, start_image + end_image",
+    "spin": {
+      "job": "3cf4dd02-8afc-49f3-b485-31c3b38efb82",
+      "start": "hero",
+      "end": "hero",
+      "prompt": "One smooth complete 360-degree rotation, centred, camera locked, seamless loop.",
+      "file": "hf_20260929_112801_3cf4dd02-8afc-49f3-b485-31c3b38efb82.mp4"
+    },
+    "crunch": {
+      "job": "1339ccba-e675-499f-ae4b-a298d393db17",
+      "start": "hero",
+      "end": "a_crunch",
+      "prompt": "Ultra slow motion: it snaps in half, flakes burst out and hang in the air.",
+      "declined_preset_id": "24bae836-2c4a-48e0-89b6-49fcc0b21612",
+      "file": "hf_20260929_112818_1339ccba-e675-499f-ae4b-a298d393db17.mp4"
+    },
+    "lamination": {
+      "job": "24d74288-c8c9-4bf5-9a45-8c1f96339827",
+      "start": "hero",
+      "end": "b_slices",
+      "prompt": "It separates into slices that glide apart like a CT scan.",
+      "file": "hf_20260929_112800_24d74288-c8c9-4bf5-9a45-8c1f96339827.mp4"
+    },
+    "crumb": {
+      "job": "aa25f8e0-5c29-4e90-ae10-f9f49866747f",
+      "start": "e_crumb",
+      "end": "e2_crumb_end",
+      "prompt": "Slow continuous fly-through along the honeycomb tunnel.",
+      "file": "hf_20260929_113103_aa25f8e0-5c29-4e90-ae10-f9f49866747f.mp4"
+    },
+    "bake": {
+      "job": "c8f1024b-d841-482b-9ccf-22e67022c7ab",
+      "start": "f_oven_raw",
+      "end": "g_oven_baked",
+      "prompt": "Time-lapse: it rises, the layers lift, the crust turns golden.",
+      "file": "hf_20260929_112801_c8f1024b-d841-482b-9ccf-22e67022c7ab.mp4"
+    }
+  }
+}

@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Croissant Pro — LAMINA</title>
+    <meta name="description" content="Croissant Pro. Our most layered croissant ever: 81 layers, 27 sheets of cultured butter, a 94 dB crunch. LAMINA is a fictional artisan bakery." />
+    <meta name="theme-color" content="#000000" />
+    <meta name="color-scheme" content="dark" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Croissant Pro — LAMINA" />
+    <meta property="og:description" content="Our most layered croissant ever." />
+    <meta property="og:image" content="/og.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preload" as="image" type="image/webp" href="/img/hero.webp" fetchpriority="low" />
+  </head>
+  <body>
+    <a class="skip" href="#lens">Skip the film</a>
+
+    <div class="loader" id="loader" aria-hidden="true">
+      <div class="loader__mark">LAMINA</div>
+      <div class="loader__bar"><span></span></div>
+      <div class="loader__pct mono">000</div>
+    </div>
+
+    <header class="nav" id="nav">
+      <a class="nav__logo" href="#top" aria-label="LAMINA, back to top">LAMINA</a>
+      <nav class="nav__links" aria-label="Sections">
+        <a href="#spin">Overview</a>
+        <a href="#crunch">Crunch</a>
+        <a href="#lamination">Layers</a>
+        <a href="#crumb">Crumb</a>
+        <a href="#bake">Bake</a>
+        <a href="#lens">Inside</a>
+        <a href="#lineup">Compare</a>
+      </nav>
+      <div class="nav__actions">
+        <button class="sound" id="sound" type="button" aria-pressed="false" aria-label="Toggle sound">
+          <svg class="sound__icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 9.5h3.2L12 5.5v13l-4.8-4H4z" />
+            <path class="sound__off" d="M16 9.5l5 5m0-5l-5 5" />
+            <path class="sound__on" d="M15.5 8.8a4.6 4.6 0 010 6.4M18.2 6.3a8.2 8.2 0 010 11.4" />
+          </svg>
+          <span class="sound__label">Sound off</span>
+          <span class="sound__eq" aria-hidden="true"><i></i><i></i><i></i></span>
+        </button>
+        <a class="btn btn--gold btn--sm" href="#order">Order ahead</a>
+      </div>
+      <div class="nav__progress" aria-hidden="true"></div>
+    </header>
+
+    <ol class="rail" id="rail" aria-hidden="true">
+      <li data-rail="spin"><span class="mono">01</span><em>Spin</em><b></b></li>
+      <li data-rail="crunch"><span class="mono">02</span><em>Crunch</em><b></b></li>
+      <li data-rail="lamination"><span class="mono">03</span><em>Layers</em><b></b></li>
+      <li data-rail="crumb"><span class="mono">04</span><em>Crumb</em><b></b></li>
+      <li data-rail="bake"><span class="mono">05</span><em>Bake</em><b></b></li>
+    </ol>
+
+    <main id="top">
+      <!-- 01 · SPIN ------------------------------------------------------ -->
+      <section class="chapter chapter--spin" id="spin" aria-label="Croissant Pro, overview">
+        <div class="stage">
+          <canvas class="stage__canvas" role="img" aria-label="Croissant Pro turning a full 360 degrees on black"></canvas>
+          <div class="spin__title" data-el="title">
+            <p class="eyebrow mono">Introducing</p>
+            <h1 class="display gold">Croissant Pro</h1>
+            <p class="lede">Our most layered croissant <em class="serif">ever.</em></p>
+          </div>
+          <div class="spin__stat spin__stat--right" data-el="layers">
+            <p class="stat"><span class="gold">81</span> layers.</p>
+            <p class="stat__copy">Three turns and a final fold. Eighty-one leaves of dough and butter, each one thinner than a sheet of paper.</p>
+          </div>
+          <div class="spin__stat spin__stat--left" data-el="sheets">
+            <p class="stat"><span class="gold">27</span> sheets.</p>
+            <p class="stat__copy">Of cultured butter, 84% fat, cold-rolled at 4&nbsp;°C so no two sheets ever touch.</p>
+          </div>
+          <p class="spin__outro" data-el="outro">Laminated by hand. <em class="serif">Baked every 45 minutes.</em></p>
+          <div class="scrollcue" data-el="cue"><span class="mono">Scroll to unfold</span><i></i></div>
+        </div>
+      </section>
+
+      <!-- 02 · CRUNCH ---------------------------------------------------- -->
+      <section class="chapter chapter--crunch" id="crunch" aria-label="The crunch">
+        <div class="stage">
+          <canvas class="stage__canvas" role="img" aria-label="Croissant Pro snapping in half in slow motion, flakes hanging in the air"></canvas>
+          <header class="chap-head" data-el="head">
+            <p class="eyebrow mono">02 · Crunch</p>
+            <h2 class="h2">The crunch, <em class="serif">engineered.</em></h2>
+            <p class="chap-copy">A clean break at 94 decibels. Twenty-seven sheets of butter bake into glass-thin flakes that shatter, then hang in the air.</p>
+          </header>
+          <div class="hud meter" data-el="meter">
+            <div class="hud__label mono">Sound level · dB(A)</div>
+            <div class="meter__value"><span class="mono" data-el="db">30</span><small class="mono">dB</small></div>
+            <div class="meter__bars" data-el="bars"><b class="meter__peak"></b></div>
+            <div class="meter__scale mono"><span>30</span><span>60</span><span>80</span><span>100</span></div>
+          </div>
+          <div class="hud flakebox" data-el="flakebox">
+            <div class="hud__label mono">Flakes airborne</div>
+            <div class="flakebox__value mono" data-el="flakes">0</div>
+            <div class="hud__sub mono">tracked at 1,000 fps</div>
+          </div>
+          <p class="uncrunch" data-el="uncrunch">Scroll back up to <em class="serif">un-crunch</em> it.</p>
+        </div>
+      </section>
+
+      <!-- 03 · LAMINATION ------------------------------------------------ -->
+      <section class="chapter chapter--lamination" id="lamination" aria-label="Lamination">
+        <div class="stage">
+          <canvas class="stage__canvas" role="img" aria-label="Croissant Pro separating into seven cross-section slices like a CT scan"></canvas>
+          <div class="scanline" data-el="scan" aria-hidden="true"></div>
+          <div class="slice-tags" data-el="tags" aria-hidden="true"></div>
+          <header class="chap-head" data-el="head">
+            <p class="eyebrow mono">03 · Lamination</p>
+            <h2 class="h2">Every layer, <em class="serif">accounted for.</em></h2>
+            <p class="chap-copy">We section one Croissant Pro from every batch into seven slices and count. If it isn't 81, it isn't Pro.</p>
+          </header>
+          <div class="hud counter" data-el="counter">
+            <div class="hud__label mono">Layers counted</div>
+            <div class="counter__value mono"><span data-el="count">00</span><small>/81</small></div>
+            <div class="counter__track"><i></i></div>
+          </div>
+          <ul class="spec-strip mono" data-el="strip">
+            <li><span>Flour</span><b>T45 · 28 h cold</b></li>
+            <li><span>Butter</span><b>84% · cultured</b></li>
+            <li><span>Turns</span><b>3 letter + 1</b></li>
+            <li><span>Rolled to</span><b>3.5 mm</b></li>
+            <li><span>Leaf</span><b>0.07 mm</b></li>
+            <li><span>Laminated at</span><b>4 °C</b></li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 04 · CRUMB ----------------------------------------------------- -->
+      <section class="chapter chapter--crumb" id="crumb" aria-label="Inside the crumb">
+        <div class="stage">
+          <canvas class="stage__canvas" role="img" aria-label="Flying through the honeycomb crumb inside Croissant Pro"></canvas>
+          <div class="stage__vignette" aria-hidden="true"></div>
+          <header class="chap-head chap-head--center" data-el="head">
+            <p class="eyebrow mono">04 · Crumb</p>
+            <h2 class="h2">Inside, it's <em class="serif">mostly air.</em></h2>
+          </header>
+          <article class="glass-card glass-card--left">
+            <p class="glass-card__eyebrow mono">01 · Structure</p>
+            <p class="glass-card__stat">Honeycomb</p>
+            <p class="glass-card__copy">Open cells up to 4&nbsp;mm across, blown apart by steam from the butter in the first four minutes of the bake.</p>
+          </article>
+          <article class="glass-card glass-card--right">
+            <p class="glass-card__eyebrow mono">02 · Volume</p>
+            <p class="glass-card__stat"><span class="gold">72%</span> air</p>
+            <p class="glass-card__copy">By volume. Croissant Pro weighs 78&nbsp;g and eats like a cloud with a crust.</p>
+          </article>
+          <article class="glass-card glass-card--left">
+            <p class="glass-card__eyebrow mono">03 · Membranes</p>
+            <p class="glass-card__stat"><span class="gold">12</span> µm</p>
+            <p class="glass-card__copy">Gluten walls stretched thinner than cling film, every one of them glazed in butter.</p>
+          </article>
+          <article class="glass-card glass-card--right">
+            <p class="glass-card__eyebrow mono">04 · Spec sheet</p>
+            <p class="glass-card__stat"><span class="gold">6</span> ingredients</p>
+            <p class="glass-card__copy">Flour, cultured butter, whole milk, yeast, sugar, sea salt. No improvers. Nothing else to list.</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- 05 · BAKE ------------------------------------------------------ -->
+      <section class="chapter chapter--bake" id="bake" aria-label="The bake">
+        <div class="stage">
+          <canvas class="stage__canvas" role="img" aria-label="Time-lapse of Croissant Pro rising and turning golden in a deck oven"></canvas>
+          <div class="stage__vignette stage__vignette--warm" aria-hidden="true"></div>
+          <header class="chap-head" data-el="head">
+            <p class="eyebrow mono">05 · Bake</p>
+            <h2 class="h2">Eighteen minutes at <em class="serif">190&nbsp;°C.</em></h2>
+            <p class="chap-copy">Steam lifts the layers apart before the crust sets. Then the colour tells us everything.</p>
+          </header>
+          <div class="oven" data-el="readout" aria-live="off">
+            <div class="oven__top mono"><span>Deck 2 · Program PRO-18</span><span class="oven__dot"></span></div>
+            <div class="oven__timer mono" data-el="timer">00:00</div>
+            <div class="oven__grid">
+              <div><span class="mono">Oven</span><b class="mono"><em data-el="oven">190</em> °C</b></div>
+              <div><span class="mono">Core</span><b class="mono"><em data-el="core">4.0</em> °C</b></div>
+              <div class="oven__rise"><span class="mono">Rise</span><b class="mono"><em data-el="rise">+0</em>%</b><i data-el="risebar"></i></div>
+              <div class="oven__colour"><span class="mono">Colour</span><b><i class="oven__swatch" data-el="swatch"></i><em data-el="colour">Raw ivory</em></b></div>
+            </div>
+            <div class="oven__bar"><i data-el="progress"></i></div>
+            <div class="oven__status mono" data-el="status">Proofed · loading deck 2</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 06 · LENS ------------------------------------------------------ -->
+      <section class="section lens" id="lens" data-mode="xray" aria-label="X-ray and thermal lens">
+        <header class="section-head">
+          <p class="eyebrow mono">06 · Inside</p>
+          <h2 class="h2">See straight <em class="serif">through it.</em></h2>
+          <p class="section-copy">Move the lens across Croissant Pro. The readout samples the pixel under the crosshair, live, from the X-ray or thermal plate.</p>
+        </header>
+        <div class="lens__stage" tabindex="0" aria-label="Lens over Croissant Pro. Use arrow keys to move it.">
+          <img class="lens__base" src="/img/hero.webp" alt="Croissant Pro floating on black" width="2560" height="1440" decoding="async" />
+          <img class="lens__layer is-active" data-mode="xray" src="/img/xray.webp" alt="" width="2560" height="1440" decoding="async" />
+          <img class="lens__layer" data-mode="thermal" src="/img/thermal.webp" alt="" width="2560" height="1440" decoding="async" />
+          <div class="lens__ring" aria-hidden="true">
+            <i class="lens__cross"></i>
+            <span class="lens__tag mono">X-RAY</span>
+          </div>
+          <div class="lens__modes" role="tablist" aria-label="Lens mode">
+            <button type="button" role="tab" aria-selected="true" data-lens-mode="xray">X-ray</button>
+            <button type="button" role="tab" aria-selected="false" data-lens-mode="thermal">Thermal</button>
+          </div>
+          <dl class="lens__readout mono">
+            <div><dt>X</dt><dd data-r="x">—</dd></div>
+            <div><dt>Y</dt><dd data-r="y">—</dd></div>
+            <div class="wide"><dt>Pixel</dt><dd><i class="lens__swatch" data-r="swatch"></i><span data-r="hex">—</span></dd></div>
+            <div class="wide"><dt data-r="k1">Density</dt><dd data-r="v1">—</dd></div>
+            <div class="wide"><dt data-r="k2">Radiodensity</dt><dd data-r="v2">—</dd></div>
+            <div class="wide"><dt data-r="k3">Material</dt><dd data-r="v3">—</dd></div>
+          </dl>
+          <div class="lens__scale" aria-hidden="true"><span class="mono lo"></span><i></i><span class="mono hi"></span></div>
+        </div>
+      </section>
+
+      <!-- 07 · VIEWER ---------------------------------------------------- -->
+      <section class="section viewer" id="viewer" aria-label="Drag to spin">
+        <header class="section-head">
+          <p class="eyebrow mono">07 · Every angle</p>
+          <h2 class="h2">Turn it over <em class="serif">in your hands.</em></h2>
+        </header>
+        <div class="viewer__stage" tabindex="0" role="slider" aria-label="Rotate Croissant Pro. Drag, or use the arrow keys." aria-valuemin="0" aria-valuemax="359" aria-valuenow="0" aria-valuetext="degrees">
+          <canvas></canvas>
+          <div class="viewer__floor" aria-hidden="true"></div>
+          <div class="viewer__dial" aria-hidden="true">
+            <svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="54" /><path d="M60 6v10M60 104v10M6 60h10M104 60h10" /></svg>
+            <i class="viewer__needle"></i>
+            <span class="mono" data-deg>000°</span>
+          </div>
+          <p class="viewer__hint mono"><span>←</span> Drag to spin <span>→</span></p>
+        </div>
+      </section>
+
+      <!-- 08 · LINEUP ---------------------------------------------------- -->
+      <section class="section lineup" id="lineup" aria-label="The lineup">
+        <header class="section-head">
+          <p class="eyebrow mono">08 · The lineup</p>
+          <h2 class="h2">Which LAMINA is <em class="serif">right for you?</em></h2>
+        </header>
+        <div class="lineup__grid">
+          <article class="pastry pastry--pro">
+            <div class="pastry__img"><img src="/img/lineup/pro.webp" alt="Croissant Pro" width="1200" height="900" loading="lazy" decoding="async" /></div>
+            <p class="pastry__badge mono">New</p>
+            <h3 class="pastry__name gold">Croissant Pro</h3>
+            <p class="pastry__tag">Our most layered croissant ever.</p>
+            <p class="pastry__price mono">€4.20</p>
+            <button class="btn btn--gold btn--sm" type="button" data-add="pro">Add to order</button>
+          </article>
+          <article class="pastry">
+            <div class="pastry__img"><img src="/img/lineup/promax.webp" alt="Croissant Pro Max, a twice-baked almond croissant" width="1200" height="900" loading="lazy" decoding="async" /></div>
+            <p class="pastry__badge mono">Twice-baked</p>
+            <h3 class="pastry__name">Croissant Pro Max</h3>
+            <p class="pastry__tag">Almond everything. Bigger in every direction.</p>
+            <p class="pastry__price mono">€5.60</p>
+            <button class="btn btn--ghost btn--sm" type="button" data-add="promax">Add to order</button>
+          </article>
+          <article class="pastry">
+            <div class="pastry__img"><img src="/img/lineup/air.webp" alt="Pain au Chocolat Air" width="1200" height="900" loading="lazy" decoding="async" /></div>
+            <p class="pastry__badge mono">Lightest</p>
+            <h3 class="pastry__name">Pain au Chocolat Air</h3>
+            <p class="pastry__tag">Two dark batons. Impossibly light.</p>
+            <p class="pastry__price mono">€3.90</p>
+            <button class="btn btn--ghost btn--sm" type="button" data-add="air">Add to order</button>
+          </article>
+          <article class="pastry">
+            <div class="pastry__img"><img src="/img/lineup/ultra.webp" alt="Kouign-Amann Ultra" width="1200" height="900" loading="lazy" decoding="async" /></div>
+            <p class="pastry__badge mono">Loudest</p>
+            <h3 class="pastry__name">Kouign-Amann Ultra</h3>
+            <p class="pastry__tag">Caramelised right to the edge.</p>
+            <p class="pastry__price mono">€4.80</p>
+            <button class="btn btn--ghost btn--sm" type="button" data-add="ultra">Add to order</button>
+          </article>
+        </div>
+
+        <div class="specs" role="region" aria-label="Compare models" tabindex="0">
+          <table>
+            <caption class="visually-hidden">Compare the LAMINA lineup</caption>
+            <thead>
+              <tr><th scope="col"><span class="visually-hidden">Spec</span></th><th scope="col" class="is-pro">Croissant Pro</th><th scope="col">Pro Max</th><th scope="col">Air</th><th scope="col">Ultra</th></tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">Layers</th><td class="is-pro">81</td><td>81</td><td>54</td><td>108</td></tr>
+              <tr><th scope="row">Butter sheets</th><td class="is-pro">27</td><td>27</td><td>18</td><td>36</td></tr>
+              <tr><th scope="row">Butter</th><td class="is-pro">Cultured, 84%</td><td>Cultured, 84%</td><td>Cultured, 82%</td><td>Salted Breton, 84%</td></tr>
+              <tr><th scope="row">Filling</th><td class="is-pro">None. Just layers.</td><td>Almond frangipane</td><td>2 × 70% dark batons</td><td>Caramelised sugar</td></tr>
+              <tr><th scope="row">Bake</th><td class="is-pro">18 min · 190 °C</td><td>18 + 12 min · 175 °C</td><td>16 min · 195 °C</td><td>32 min · 180 °C</td></tr>
+              <tr><th scope="row">Crunch</th><td class="is-pro mono">94 dB</td><td class="mono">91 dB</td><td class="mono">88 dB</td><td class="mono">99 dB</td></tr>
+              <tr><th scope="row">Air by volume</th><td class="is-pro mono">72%</td><td class="mono">58%</td><td class="mono">69%</td><td class="mono">41%</td></tr>
+              <tr><th scope="row">Weight</th><td class="is-pro mono">78 g</td><td class="mono">112 g</td><td class="mono">72 g</td><td class="mono">96 g</td></tr>
+              <tr><th scope="row">Price</th><td class="is-pro mono">€4.20</td><td class="mono">€5.60</td><td class="mono">€3.90</td><td class="mono">€4.80</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 09 · ORDER ----------------------------------------------------- -->
+      <section class="section order" id="order" aria-label="Order ahead">
+        <header class="section-head">
+          <p class="eyebrow mono">09 · Order ahead</p>
+          <h2 class="h2">Reserve yours from <em class="serif">the next batch.</em></h2>
+        </header>
+        <div class="order__card">
+          <div class="order__items">
+            <div class="order__row" data-item="pro">
+              <img src="/img/lineup/pro-thumb.webp" alt="" width="240" height="240" loading="lazy" />
+              <div><p class="order__name">Croissant Pro</p><p class="order__price mono">€4.20</p></div>
+              <div class="stepper" role="group" aria-label="Croissant Pro quantity">
+                <button type="button" data-dec aria-label="One fewer Croissant Pro">−</button>
+                <output class="mono" data-qty aria-live="polite">2</output>
+                <button type="button" data-inc aria-label="One more Croissant Pro">+</button>
+              </div>
+            </div>
+            <div class="order__row" data-item="promax">
+              <img src="/img/lineup/promax-thumb.webp" alt="" width="240" height="240" loading="lazy" />
+              <div><p class="order__name">Croissant Pro Max</p><p class="order__price mono">€5.60</p></div>
+              <div class="stepper" role="group" aria-label="Croissant Pro Max quantity">
+                <button type="button" data-dec aria-label="One fewer Croissant Pro Max">−</button>
+                <output class="mono" data-qty aria-live="polite">0</output>
+                <button type="button" data-inc aria-label="One more Croissant Pro Max">+</button>
+              </div>
+            </div>
+            <div class="order__row" data-item="air">
+              <img src="/img/lineup/air-thumb.webp" alt="" width="240" height="240" loading="lazy" />
+              <div><p class="order__name">Pain au Chocolat Air</p><p class="order__price mono">€3.90</p></div>
+              <div class="stepper" role="group" aria-label="Pain au Chocolat Air quantity">
+                <button type="button" data-dec aria-label="One fewer Pain au Chocolat Air">−</button>
+                <output class="mono" data-qty aria-live="polite">0</output>
+                <button type="button" data-inc aria-label="One more Pain au Chocolat Air">+</button>
+              </div>
+            </div>
+            <div class="order__row" data-item="ultra">
+              <img src="/img/lineup/ultra-thumb.webp" alt="" width="240" height="240" loading="lazy" />
+              <div><p class="order__name">Kouign-Amann Ultra</p><p class="order__price mono">€4.80</p></div>
+              <div class="stepper" role="group" aria-label="Kouign-Amann Ultra quantity">
+                <button type="button" data-dec aria-label="One fewer Kouign-Amann Ultra">−</button>
+                <output class="mono" data-qty aria-live="polite">0</output>
+                <button type="button" data-inc aria-label="One more Kouign-Amann Ultra">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="order__side">
+            <div class="batch">
+              <p class="hud__label mono">Next batch out of the oven</p>
+              <p class="batch__clock mono" data-countdown>00:00:00</p>
+              <p class="batch__sub mono" data-batch>Batch 01</p>
+            </div>
+            <div class="pickup">
+              <p class="hud__label mono">Pickup · <span data-slot-day>Today</span></p>
+              <div class="pickup__slots" role="radiogroup" aria-label="Pickup time" data-slots></div>
+            </div>
+            <div class="order__total">
+              <span class="mono" data-count>2 pastries</span>
+              <b class="mono" data-total>€8.40</b>
+            </div>
+            <button class="btn btn--gold btn--block reserve" type="button" data-reserve><span>Reserve</span></button>
+            <div class="receipt" data-receipt hidden role="status">
+              <p class="receipt__title">Reserved on this screen. <em class="serif">Nothing was sent.</em></p>
+              <p class="receipt__lines mono" data-receipt-lines></p>
+              <p class="receipt__note">LAMINA is a fictional bakery: there is no server, no order was placed and nothing left your browser. Hold code <b class="mono" data-receipt-code>LMN-0000</b> exists only on this page.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer__mark">LAMINA</div>
+      <p>LAMINA is a fictional bakery and Croissant Pro is not a real product. Stills generated with GPT Image 2.5 and films with Kling 3.0 via Higgsfield. No orders are taken; nothing on this page talks to a server.</p>
+      <p class="mono">© 2026 LAMINA · Laminated by hand</p>
+    </footer>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

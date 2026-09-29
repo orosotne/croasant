@@ -1,0 +1,7 @@
+node_modules/
+dist/
+media/src/
+media/tmp/
+.DS_Store
+*.log
+verification/
