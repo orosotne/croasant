@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>UNDO — Paint Correction &amp; Ceramic Coating</title>
+  <meta name="description" content="UNDO is a paint correction and ceramic coating studio. Scroll to restore twenty years of neglect. Scroll back to bring it all back." />
+  <meta name="theme-color" content="#050607" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2l12 7v14l-12 7-12-7V9z' fill='none' stroke='%2319f5d6' stroke-width='3'/%3E%3C/svg%3E" />
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="hex" viewBox="0 0 24 28"><path d="M12 1l11 6.3v13.4L12 27 1 20.7V7.3z" /></symbol>
+    </defs>
+  </svg>
+
+  <div class="loader" data-loader>
+    <div class="loader__mark"><svg><use href="#hex" /></svg></div>
+    <div class="loader__row"><span>Loading studio</span><span data-loader-pct>000%</span></div>
+    <div class="loader__bar"><i data-loader-bar></i></div>
+  </div>
+
+  <header class="nav">
+    <a class="nav__brand" href="#top" aria-label="UNDO home">
+      <svg class="nav__hex"><use href="#hex" /></svg><span>UNDO</span>
+    </a>
+    <nav class="nav__links" aria-label="Sections">
+      <a href="#restore">Restoration</a>
+      <a href="#show">Show</a>
+      <a href="#proof">Proof</a>
+      <a href="#packages">Packages</a>
+      <a href="#quote">Quote</a>
+    </nav>
+    <a class="nav__cta" href="#book">Book a bay</a>
+  </header>
+
+  <main id="top">
+    <!-- 01 · THE RESTORATION -->
+    <section class="chapter chapter--restore" id="restore" data-chapter="restore" style="--len: 520vh">
+      <div class="stage">
+        <canvas class="stage__canvas" data-canvas="restore" aria-label="A neglected 1960s coupe being restored to a mirror finish as you scroll"></canvas>
+        <div class="stage__shade"></div>
+
+        <div class="restore__intro" data-restore-intro>
+          <p class="kicker"><span class="kicker__n">01</span> The Restoration</p>
+          <h1 class="display">Twenty years.<br /><em>Undone.</em></h1>
+          <p class="lede">Paint correction and ceramic coating for cars that have waited too long. Scroll to restore.</p>
+          <div class="scrollcue"><i></i><span>Scroll to restore</span></div>
+        </div>
+
+        <aside class="hud hud--restore" aria-live="off">
+          <div class="hud__head"><span>GLOSS · 60° GEOMETRY</span><span data-stage-label>PASS 00 · INSPECT</span></div>
+          <div class="hud__big"><span data-gloss>12.0</span><small>GU</small></div>
+          <div class="meter" aria-hidden="true">
+            <div class="meter__fill" data-gloss-bar></div>
+            <div class="meter__ticks"></div>
+            <span class="meter__mark" style="--at: 12%">12</span>
+            <span class="meter__mark" style="--at: 50%">50</span>
+            <span class="meter__mark" style="--at: 94%">94</span>
+          </div>
+          <div class="hud__grid">
+            <div><span class="hud__k">Years removed</span><span class="hud__v"><b data-years>00</b>/20</span></div>
+            <div><span class="hud__k">Defects removed</span><span class="hud__v"><b data-defects>0</b>%</span></div>
+            <div><span class="hud__k">Chrome</span><span class="hud__v" data-chrome>PITTED</span></div>
+          </div>
+        </aside>
+
+        <div class="rail" aria-hidden="true"><i data-rail="restore"></i></div>
+
+        <div class="undo-hint" data-undo-hint>
+          <p class="mono">RESTORATION COMPLETE · 94 GU</p>
+          <p class="undo-hint__big">Now scroll back.</p>
+          <p class="undo-hint__sub">Twenty years of grime return in two seconds. That's how fast neglect feels in reverse.</p>
+          <button class="btn btn--ghost" data-undo type="button"><kbd>⌘Z</kbd> Undo the undo</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 · THE SHOW -->
+    <section class="chapter chapter--show" id="show" data-chapter="show" style="--len: 420vh">
+      <div class="stage">
+        <canvas class="stage__canvas" data-canvas="show" aria-label="A slow arc around the restored car, reflections gliding across the paint"></canvas>
+        <div class="stage__shade stage__shade--soft"></div>
+        <div class="show__copy">
+          <p class="kicker"><span class="kicker__n">02</span> The Show</p>
+          <h2 class="display display--md" data-show-line>Reflections<br />don't lie.</h2>
+        </div>
+        <aside class="hud hud--show">
+          <div class="hud__head"><span>ORBIT</span><span data-orbit-dir>→ CW</span></div>
+          <div class="hud__big"><span data-orbit>000</span><small>°</small></div>
+          <div class="hud__grid hud__grid--2">
+            <div><span class="hud__k">Distinctness of image</span><span class="hud__v"><b>97</b>/100</span></div>
+            <div><span class="hud__k">Haze</span><span class="hud__v"><b>4</b> HU</span></div>
+          </div>
+        </aside>
+        <div class="rail" aria-hidden="true"><i data-rail="show"></i></div>
+      </div>
+    </section>
+
+    <section class="compare hexfield" aria-labelledby="compare-title">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="kicker"><span class="kicker__n">02b</span> Same car. Same light. Same lens.</p>
+          <h2 class="display display--md" id="compare-title">Drag the years away.</h2>
+        </div>
+        <div class="slider" data-slider style="--pos: 50%">
+          <img class="slider__img" data-plate="after" alt="The coupe after correction and ceramic coating: mirror finish, bright chrome" />
+          <div class="slider__before">
+            <img class="slider__img" data-plate="before" alt="The coupe before: dusty, faded, swirl-marked paint and rusty chrome" />
+          </div>
+          <span class="slider__tag slider__tag--l">BEFORE · 12 GU</span>
+          <span class="slider__tag slider__tag--r">AFTER · 94 GU</span>
+          <div class="slider__handle" aria-hidden="true"><svg><use href="#hex" /></svg><span>⟷</span></div>
+          <input class="slider__input" type="range" min="0" max="100" value="50" step="0.1" aria-label="Before and after comparison position" data-slider-input />
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 · THE PROOF -->
+    <section class="chapter chapter--proof" id="proof" data-chapter="proof" style="--len: 380vh">
+      <div class="stage">
+        <canvas class="stage__canvas" data-canvas="proof" aria-label="Macro of water beading, rolling and sheeting off the ceramic-coated bonnet"></canvas>
+        <div class="stage__shade"></div>
+        <div class="proof__copy">
+          <p class="kicker"><span class="kicker__n">03</span> The Proof</p>
+          <h2 class="display display--md">Water doesn't<br />stay. Neither<br />does dirt.</h2>
+        </div>
+        <aside class="hud hud--proof">
+          <div class="hud__head"><span>WATER REPELLENCY · SESSILE DROP</span><span data-proof-state>WETTING</span></div>
+          <div class="proof__read">
+            <div class="hud__big"><span data-angle>000</span><small>° contact angle</small></div>
+            <svg class="drop" viewBox="0 0 200 120" aria-hidden="true">
+              <line x1="0" y1="100" x2="200" y2="100" class="drop__surface" />
+              <path data-drop-path class="drop__body" d="" />
+              <line data-drop-tangent class="drop__tangent" x1="0" y1="0" x2="0" y2="0" />
+              <path data-drop-arc class="drop__arc" d="" />
+            </svg>
+          </div>
+          <div class="meter meter--thin" aria-hidden="true">
+            <div class="meter__fill" data-angle-bar></div>
+            <span class="meter__mark" style="--at: 50%">90° hydrophobic</span>
+            <span class="meter__mark" style="--at: 91.6%">110°</span>
+          </div>
+          <div class="hud__grid">
+            <div><span class="hud__k">Sliding angle</span><span class="hud__v"><b data-slide>—</b></span></div>
+            <div><span class="hud__k">Coating</span><span class="hud__v">SiO₂ · 9H</span></div>
+            <div><span class="hud__k">Film</span><span class="hud__v">~1.5 µm</span></div>
+          </div>
+        </aside>
+        <div class="rail" aria-hidden="true"><i data-rail="proof"></i></div>
+      </div>
+    </section>
+
+    <!-- PACKAGES -->
+    <section class="packages hexfield" id="packages" aria-labelledby="pk-title">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="kicker"><span class="kicker__n">04</span> Packages</p>
+          <h2 class="display display--md" id="pk-title">Three ways back.</h2>
+          <p class="lede lede--narrow">Every job starts with a paint-depth reading on every panel. We remove only what we have to, and we tell you what we couldn't.</p>
+        </div>
+        <div class="cards">
+          <article class="card">
+            <header class="card__head">
+              <svg class="card__hex"><use href="#hex" /></svg>
+              <p class="mono">STAGE 01 · 1 DAY</p>
+              <h3>Enhancement</h3>
+              <p class="card__gu"><span>→ 70 GU</span></p>
+            </header>
+            <ul class="card__list">
+              <li>Snow-foam pre-wash &amp; two-bucket hand wash</li>
+              <li>Iron fallout &amp; tar decontamination</li>
+              <li>Clay bar across every panel</li>
+              <li>Single-stage machine polish, ~50–60% defect removal</li>
+              <li>Polymer sealant, six months of protection</li>
+            </ul>
+            <footer class="card__foot"><p class="price"><small>from</small> $480</p><a href="#quote" class="btn btn--ghost" data-pick="enhancement">Quote this</a></footer>
+          </article>
+
+          <article class="card card--mid">
+            <header class="card__head">
+              <svg class="card__hex"><use href="#hex" /></svg>
+              <p class="mono">STAGE 02 · 2 DAYS</p>
+              <h3>Correction</h3>
+              <p class="card__gu"><span>→ 88 GU</span></p>
+            </header>
+            <ul class="card__list">
+              <li>Everything in Enhancement</li>
+              <li>Paint-depth readings logged per panel</li>
+              <li>Two-stage compound &amp; refine, ~85–95% defect removal</li>
+              <li>Wet sanding of isolated deep marks where depth allows</li>
+              <li>Chrome, trim &amp; headlight lens restoration</li>
+            </ul>
+            <footer class="card__foot"><p class="price"><small>from</small> $1,150</p><a href="#quote" class="btn btn--ghost" data-pick="correction">Quote this</a></footer>
+          </article>
+
+          <article class="card card--hero">
+            <span class="card__flag">The full UNDO</span>
+            <header class="card__head">
+              <svg class="card__hex"><use href="#hex" /></svg>
+              <p class="mono">STAGE 03 · 3 DAYS</p>
+              <h3>Ceramic</h3>
+              <p class="card__gu"><span>→ 94 GU · 110°</span></p>
+            </header>
+            <ul class="card__list">
+              <li>Everything in Correction</li>
+              <li>Panel wipe &amp; 24-hour infrared cure</li>
+              <li>Two layers SiO₂ ceramic, five-year rating</li>
+              <li>Wheel faces, glass &amp; trim coated</li>
+              <li>Annual inspection &amp; top-up for five years</li>
+            </ul>
+            <footer class="card__foot"><p class="price"><small>from</small> $2,400</p><a href="#quote" class="btn btn--solid" data-pick="ceramic">Quote this</a></footer>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUOTE -->
+    <section class="quote" id="quote" aria-labelledby="q-title">
+      <div class="wrap quote__grid">
+        <div>
+          <div class="section-head section-head--left">
+            <p class="kicker"><span class="kicker__n">05</span> Instant quote</p>
+            <h2 class="display display--sm" id="q-title">Price it<br />in three taps.</h2>
+          </div>
+          <form class="qform" data-quote onsubmit="return false">
+            <fieldset>
+              <legend>Vehicle size</legend>
+              <div class="seg">
+                <label><input type="radio" name="size" value="compact" /><span>Compact<small>Coupe · hatch</small></span></label>
+                <label><input type="radio" name="size" value="mid" checked /><span>Mid<small>Saloon · estate</small></span></label>
+                <label><input type="radio" name="size" value="large" /><span>Large<small>SUV · 4×4</small></span></label>
+                <label><input type="radio" name="size" value="xl" /><span>XL<small>Van · pickup</small></span></label>
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend>Paint condition</legend>
+              <div class="seg">
+                <label><input type="radio" name="cond" value="fresh" /><span>Fresh<small>Light haze</small></span></label>
+                <label><input type="radio" name="cond" value="tired" checked /><span>Tired<small>Swirls · dull</small></span></label>
+                <label><input type="radio" name="cond" value="neglected" /><span>Neglected<small>Oxidised · etched</small></span></label>
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend>Package</legend>
+              <div class="seg seg--3">
+                <label><input type="radio" name="pkg" value="enhancement" /><span>Enhancement</span></label>
+                <label><input type="radio" name="pkg" value="correction" /><span>Correction</span></label>
+                <label><input type="radio" name="pkg" value="ceramic" checked /><span>Ceramic</span></label>
+              </div>
+            </fieldset>
+          </form>
+        </div>
+
+        <div class="estimate" aria-live="polite">
+          <div class="estimate__head mono"><span>ESTIMATE</span><span data-q-ref>UND-0000</span></div>
+          <p class="estimate__price"><span class="estimate__cur">$</span><span data-q-total>0</span></p>
+          <dl class="estimate__lines" data-q-lines></dl>
+          <div class="estimate__meta mono">
+            <div><span>Time in bay</span><b data-q-days>—</b></div>
+            <div><span>Target gloss</span><b data-q-gu>—</b></div>
+          </div>
+          <p class="estimate__note">Final price confirmed after a free paint-depth inspection. No deposit to hold a bay.</p>
+          <a class="btn btn--solid btn--block" href="#book">Hold a bay for this</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- BOOK -->
+    <section class="book hexfield" id="book" aria-labelledby="b-title">
+      <div class="wrap">
+        <div class="booking">
+          <div class="booking__head">
+            <p class="kicker"><span class="kicker__n">06</span> Open bays</p>
+            <h2 class="display display--sm" id="b-title">Pick a bay.</h2>
+            <p class="mono booking__summary" data-b-summary>CERAMIC · MID · TIRED</p>
+          </div>
+          <div class="bays" role="radiogroup" aria-label="Open bays" data-bays></div>
+          <form class="bform" data-bform>
+            <label><span>Name</span><input name="name" autocomplete="name" required placeholder="Your name" /></label>
+            <label><span>Email</span><input name="email" type="email" autocomplete="email" required placeholder="you@example.com" /></label>
+            <button class="btn btn--solid" type="submit" data-b-submit disabled>Choose a bay</button>
+          </form>
+          <p class="booking__status mono" data-b-status role="status">Demo studio. Nothing you enter here is sent anywhere.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap foot__row">
+      <p class="foot__brand"><svg class="nav__hex"><use href="#hex" /></svg> UNDO</p>
+      <p class="mono">Unit 6 · Hex Hall · Open Tue–Sat 08:00–18:00</p>
+      <p class="mono">A fictional studio. Imagery generated for this site.</p>
+    </div>
+  </footer>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

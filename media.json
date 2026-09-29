@@ -1,0 +1,42 @@
+{
+  "higgsfieldProject": "d2203a66-49f0-46ef-ad88-8b7b9b3ba59c",
+  "plates": {
+    "before": {
+      "job": "24be249b-a9c4-4231-8456-4c35b84b8182",
+      "url": "https://d8j0ntlcm91z4.cloudfront.net/user_30Exrv2KyRLcxoHJbsf7JaqCAEe/hf_20260929_114215_24be249b-a9c4-4231-8456-4c35b84b8182.png"
+    },
+    "after": {
+      "job": "9dd25bd5-869c-438c-8598-56150aa40d0b",
+      "url": "https://d8j0ntlcm91z4.cloudfront.net/user_30Exrv2KyRLcxoHJbsf7JaqCAEe/hf_20260929_114326_9dd25bd5-869c-438c-8598-56150aa40d0b.png"
+    },
+    "macro": {
+      "job": "f5caae0f-fc1f-4025-a712-6e22a528b976",
+      "url": "https://d8j0ntlcm91z4.cloudfront.net/user_30Exrv2KyRLcxoHJbsf7JaqCAEe/hf_20260929_114424_f5caae0f-fc1f-4025-a712-6e22a528b976.png"
+    }
+  },
+  "films": {
+    "restore": {
+      "job": "a763a7d6-3420-42d8-9b28-9f47de6a34de",
+      "url": "https://d8j0ntlcm91z4.cloudfront.net/user_30Exrv2KyRLcxoHJbsf7JaqCAEe/hf_20260929_114447_a763a7d6-3420-42d8-9b28-9f47de6a34de.mp4",
+      "fps": 24,
+      "trim": [
+        0.6,
+        6.8
+      ]
+    },
+    "show": {
+      "job": "ad3fd0b1-c565-44f3-b66c-5b469b230d24",
+      "url": "https://d8j0ntlcm91z4.cloudfront.net/user_30Exrv2KyRLcxoHJbsf7JaqCAEe/hf_20260929_114434_ad3fd0b1-c565-44f3-b66c-5b469b230d24.mp4",
+      "fps": 15
+    },
+    "proof": {
+      "job": "fffea479-02d2-438a-a3bf-4171ad036ac6",
+      "url": "https://d8j0ntlcm91z4.cloudfront.net/user_30Exrv2KyRLcxoHJbsf7JaqCAEe/hf_20260929_114542_fffea479-02d2-438a-a3bf-4171ad036ac6.mp4",
+      "fps": 16,
+      "trim": [
+        2.5,
+        10
+      ]
+    }
+  }
+}
