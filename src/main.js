@@ -25,7 +25,7 @@ function put(el, key, val) {
 }
 
 async function boot() {
-  const manifest = await fetch('/media/manifest.json').then((r) => (r.ok ? r.json() : {})).catch(() => ({}));
+  const manifest = await fetch('media/manifest.json').then((r) => (r.ok ? r.json() : {})).catch(() => ({}));
   const films = manifest.films || {};
   const plateSrc = manifest.plates || {};
 

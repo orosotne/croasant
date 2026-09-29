@@ -1,22 +1,27 @@
 {
   "plates": {
     "before": {
-      "src": "/media/before.jpg",
-      "small": "/media/before-sm.jpg"
+      "src": "media/before.jpg",
+      "small": "media/before-sm.jpg"
     },
     "after": {
-      "src": "/media/after.jpg",
-      "small": "/media/after-sm.jpg"
+      "src": "media/after.jpg",
+      "small": "media/after-sm.jpg"
     },
     "macro": {
-      "src": "/media/macro.jpg",
-      "small": "/media/macro-sm.jpg"
+      "src": "media/macro.jpg",
+      "small": "media/macro-sm.jpg"
     }
   },
   "films": {
     "restore": {
       "count": 149,
-      "path": "/media/restore",
+      "unique": 149,
+      "path": "media/restore",
+      "tiers": [
+        "lg",
+        "sm"
+      ],
       "curve": [
         0,
         0,
@@ -171,7 +176,12 @@
     },
     "show": {
       "count": 125,
-      "path": "/media/show",
+      "unique": 63,
+      "path": "media/show",
+      "tiers": [
+        "lg",
+        "sm"
+      ],
       "curve": [
         0,
         0.001,
@@ -303,7 +313,12 @@
     },
     "proof": {
       "count": 120,
-      "path": "/media/proof",
+      "unique": 120,
+      "path": "media/proof",
+      "tiers": [
+        "lg",
+        "sm"
+      ],
       "curve": [
         0,
         0.001,

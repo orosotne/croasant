@@ -60,12 +60,16 @@ export class Sequence {
       this.ctx.imageSmoothingQuality = 'high';
       this.invalidate();
     }
-    // Small tier is plenty unless the canvas is genuinely wide.
-    this.tier = w > 1100 ? 'lg' : 'sm';
+    // Small tier is plenty unless the canvas is genuinely wide (when it was published).
+    const tiers = this.film?.tiers || ['lg'];
+    this.tier = w <= 1100 && tiers.includes('sm') ? 'sm' : 'lg';
   }
 
   src(i) {
-    return `${this.film.path}/${this.tier}/${String(i + 1).padStart(4, '0')}.jpg`;
+    // Ping-pong films ship each frame once; mirror the index on the way back.
+    const u = this.film.unique || this.film.count;
+    const f = i < u ? i : 2 * u - 2 - i;
+    return `${this.film.path}/${this.tier}/${String(f + 1).padStart(4, '0')}.jpg`;
   }
 
   // Load order: coarse strides first so scrubbing works before everything arrives.
